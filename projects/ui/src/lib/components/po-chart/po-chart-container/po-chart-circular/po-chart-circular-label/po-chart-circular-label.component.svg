@@ -1,0 +1,8 @@
+<svg:text
+  class="po-chart-label" 
+  dominant-baseline="middle"
+  [attr.fill]="coordinates.color"
+  [attr.x]="coordinates.xCoordinate"
+  [attr.y]="coordinates.yCoordinate">
+  {{ coordinates.label }}
+</svg:text> 

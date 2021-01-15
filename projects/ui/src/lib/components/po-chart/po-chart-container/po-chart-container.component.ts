@@ -19,6 +19,8 @@ export class PoChartContainerComponent {
 
   @Input('p-categories') categories: Array<string>;
 
+  @Input('p-type') type: PoChartType;
+
   @Input('p-container-size') set containerSize(value: PoChartContainerSize) {
     this._containerSize = value;
     this.viewBox = this.setViewBox();
@@ -44,11 +46,11 @@ export class PoChartContainerComponent {
     return this._options;
   }
 
-  @Input('p-type') type: PoChartType;
-
   @Input('p-series') series: Array<PoLineChartSeries>;
 
-  constructor() {}
+  get isTypeCircular() {
+    return this.type === PoChartType.Pie || this.type === PoChartType.Donut;
+  }
 
   onSerieClick(event: any) {
     this.serieClick.emit(event);
@@ -60,18 +62,18 @@ export class PoChartContainerComponent {
 
   private setViewBox() {
     const { svgWidth, svgHeight } = this.containerSize;
-
+    const viewBoxWidth = this.isTypeCircular ? svgHeight : svgWidth;
     // Tratamento necessário para que não corte o vetor nas extremidades
     const offsetXY = 1;
 
-    return `${offsetXY} -${offsetXY} ${svgWidth} ${svgHeight}`;
+    return `${offsetXY} -${offsetXY} ${viewBoxWidth} ${this.containerSize.svgHeight}`;
   }
 
   private verifyAxisOptions(options: PoChartOptions): void {
-    if (this._options.hasOwnProperty('axis')) {
+    if (options.hasOwnProperty('axis')) {
       this.axisOptions = {
         ...this.axisOptions,
-        ...this._options.axis
+        ...options.axis
       };
     }
   }
