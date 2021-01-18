@@ -7,8 +7,6 @@ import { PoChartPathCoordinates } from '../../../interfaces/po-chart-path-coordi
   templateUrl: './po-chart-circular-path.component.svg'
 })
 export class PoChartCircularPathComponent implements OnChanges {
-  @Input('p-color') color: string;
-
   @Input('p-coordinates') coordinates: PoChartPathCoordinates;
 
   @Output('p-on-click') onClick = new EventEmitter<any>();

@@ -3,7 +3,6 @@
   <svg:g *ngFor="let item of coordinates; let i = index; trackBy: trackBy">
     <svg:g po-chart-circular-path
       [attr.key]="'po-chart-circular-path-' + i"
-      [p-color]="colors[i]" 
       [p-coordinates]="item"
       (p-on-click)="onSerieClick($event)"
       (p-on-hover)="onSerieHover($event)">
@@ -18,11 +17,11 @@
     </svg:g>
   </svg:g>
 </svg:g>
-
-<!-- <svg:g po-chart-circular-animation
+<!-- 
+<svg:g po-chart-circular-animation
   [p-height]="containerSize.svgHeight"
   [p-animate]="animate"
   [p-coordinates]="coordinates"
-> -->
-</svg:g>
+>
+</svg:g> -->
 

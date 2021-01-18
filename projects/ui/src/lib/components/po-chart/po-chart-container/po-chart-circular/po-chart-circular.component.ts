@@ -16,7 +16,6 @@ export abstract class PoChartCircularComponent implements OnChanges {
   private _containerSize: PoChartContainerSize = {};
   private _series: Array<PoPieChartSeries | PoDonutChartSeries>;
 
-  colors: Array<string> = [];
   coordinates: Array<PoChartPathCoordinates>;
   labelsCoordinates: Array<PoChartLabelCoordinates>;
   radius: number;
@@ -87,32 +86,40 @@ export abstract class PoChartCircularComponent implements OnChanges {
 
       this.coordinates = series.reduce((coordinatesList, serie, index) => {
         const data = serie.data ?? serie.value;
-        const label = serie.label;
-        const tooltipLabel = this.getTooltipLabel(data, totalValue, serie.label, serie.tooltip);
 
         if (data && data > 0) {
-          this.colors = [...this.colors, this.colorList[index]];
+          const { color, label, tooltipLabel } = this.getColorAndLabel(serie, totalValue, index);
+
           startRadianAngle = endRadianAngle;
           endRadianAngle = startRadianAngle + this.calculateAngle(data, totalValue);
+
           const coordinates = this.calculateCoordinates({
             height,
             startRadianAngle,
             endRadianAngle,
             data,
             totalValue,
-            color: this.colorList[index]
+            color
           });
 
-          coordinatesList.push({ coordinates, data, label, tooltipLabel });
+          coordinatesList = [...coordinatesList, { coordinates, data, color, label, tooltipLabel }];
         }
+
         return coordinatesList;
       }, []);
     }
   }
 
+  private getColorAndLabel(serie: PoPieChartSeries | PoDonutChartSeries, totalValue: number, index: number) {
+    const color = this.colorList[index];
+    const label = serie.label;
+    const tooltipLabel = this.getTooltipLabel(serie.data, totalValue, serie.label, serie.tooltip);
+
+    return { color, label, tooltipLabel };
+  }
+
   private cleanProperties() {
     this.labelsCoordinates = [];
-    this.colors = [];
     this.coordinates = [];
   }
 
