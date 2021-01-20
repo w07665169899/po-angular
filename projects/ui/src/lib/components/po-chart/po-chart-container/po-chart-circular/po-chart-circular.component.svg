@@ -1,7 +1,7 @@
 <svg:g>
   <!-- SERIES PATHS -->
-  <svg:g *ngFor="let item of coordinates; let i = index; trackBy: trackBy">
-    <svg:g po-chart-circular-path
+  <svg:g *ngFor="let item of seriesList; let i = index; trackBy: trackBy">
+    <svg:g #svgPaths po-chart-circular-path
       [attr.key]="'po-chart-circular-path-' + i"
       [p-coordinates]="item"
       (p-on-click)="onSerieClick($event)"
@@ -10,18 +10,11 @@
   </svg:g>
 
   <!-- SERIES LABELS -->
-  <svg:g *ngFor="let item of labelsCoordinates; let i = index; trackBy: trackBy">
-    <svg:g po-chart-circular-label
+  <svg:g *ngFor="let item of seriesLabels; let i = index; trackBy: trackBy">
+    <svg:g #svgLabels po-chart-circular-label
       [attr.key]="'po-chart-circular-label-' + i"
       [p-coordinates]="item">
     </svg:g>
   </svg:g>
 </svg:g>
-<!-- 
-<svg:g po-chart-circular-animation
-  [p-height]="containerSize.svgHeight"
-  [p-animate]="animate"
-  [p-coordinates]="coordinates"
->
-</svg:g> -->
 

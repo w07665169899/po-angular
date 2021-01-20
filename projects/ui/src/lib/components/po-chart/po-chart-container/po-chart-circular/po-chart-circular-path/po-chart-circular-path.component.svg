@@ -1,8 +1,7 @@
-<svg:path
+<svg:path #svgPath
   class="po-path-item"
   [p-chart-tooltip]="coordinates.tooltipLabel"
   [attr.fill]="coordinates.color"
-  [attr.d]="coordinates.coordinates"
   (click)="onMouseClick()"
   (mouseenter)="onMouseEnter()"
   >

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
 
 import { PoChartPathCoordinates } from '../../../interfaces/po-chart-path-coordinates.interface';
 
@@ -6,18 +6,19 @@ import { PoChartPathCoordinates } from '../../../interfaces/po-chart-path-coordi
   selector: '[po-chart-circular-path]',
   templateUrl: './po-chart-circular-path.component.svg'
 })
-export class PoChartCircularPathComponent implements OnChanges {
+export class PoChartCircularPathComponent {
   @Input('p-coordinates') coordinates: PoChartPathCoordinates;
 
   @Output('p-on-click') onClick = new EventEmitter<any>();
 
   @Output('p-on-hover') onHover = new EventEmitter<any>();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('CHANGES no path:::', changes);
-    if (changes.coordinaes) {
-      console.log('mudou ufa no path!!!!');
-    }
+  @ViewChild('svgPath', { read: ElementRef }) svgPath: ElementRef;
+
+  constructor(private renderer: Renderer2) {}
+
+  applyCoordinates(coordinates: string) {
+    this.renderer.setAttribute(this.svgPath.nativeElement, 'd', coordinates);
   }
 
   onMouseClick() {

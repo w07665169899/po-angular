@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-
-import { PoChartCompleteCircle } from '../../../helpers/po-chart-default-values.constant';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
 
 import { PoChartCircularComponent } from '../po-chart-circular.component';
 
@@ -8,7 +6,13 @@ import { PoChartCircularComponent } from '../po-chart-circular.component';
   selector: '[po-chart-pie]',
   templateUrl: '../po-chart-circular.component.svg'
 })
-export class PoChartPieComponent extends PoChartCircularComponent {
+export class PoChartPieComponent extends PoChartCircularComponent implements OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.series || changes.containerSize) {
+      this.drawSeries(this.series, this.containerSize.svgHeight);
+    }
+  }
+
   protected calculateCoordinates(dataValue) {
     const { height, startRadianAngle, endRadianAngle } = dataValue;
 
@@ -23,7 +27,7 @@ export class PoChartPieComponent extends PoChartCircularComponent {
     const startX = radius + cosAlpha * radius;
     const startY = radius + sinAlpha * radius;
 
-    const endX = radius + cosBeta * radius - PoChartCompleteCircle;
+    const endX = radius + cosBeta * radius;
     const endY = radius + sinBeta * radius;
 
     const largeArc = endRadianAngle - startRadianAngle > Math.PI;
@@ -46,7 +50,7 @@ export class PoChartPieComponent extends PoChartCircularComponent {
     ].join(' ');
   }
 
-  protected getTooltipLabel(data: number, totalValue: number, label?: string, tooltipLabel?: string) {
+  protected getTooltipLabel(data: number, label?: string, tooltipLabel?: string) {
     const dataLabel = label ? `${label}: ` : '';
     const dataValue = data.toString();
 

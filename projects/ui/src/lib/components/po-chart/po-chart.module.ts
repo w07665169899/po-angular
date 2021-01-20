@@ -22,7 +22,6 @@ import { PoChartDonutComponent } from './po-chart-container/po-chart-circular/po
 import { PoChartCircularLabelComponent } from './po-chart-container/po-chart-circular/po-chart-circular-label/po-chart-circular-label.component';
 import { PoChartCircularPathComponent } from './po-chart-container/po-chart-circular/po-chart-circular-path/po-chart-circular-path.component';
 import { PoChartTooltipDirective } from './po-chart-container/po-chart-circular/po-chart-circular-path/po-chart-tooltip.directive';
-import { PoChartCircularAnimationComponent } from './po-chart-container/po-chart-circular/po-chart-circular-animation/po-chart-circular-animation.component';
 
 /**
  * @description
@@ -50,8 +49,7 @@ import { PoChartCircularAnimationComponent } from './po-chart-container/po-chart
     PoChartBarPathComponent,
     PoChartCircularPathComponent,
     PoChartCircularLabelComponent,
-    PoChartTooltipDirective,
-    PoChartCircularAnimationComponent
+    PoChartTooltipDirective
   ],
   exports: [PoChartComponent]
 })

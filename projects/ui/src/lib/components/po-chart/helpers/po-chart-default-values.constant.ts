@@ -18,3 +18,7 @@ export const PoChartDonutThickness = 40;
 
 // Valor para subtração do valor de angulo radiano final de série em tipos Donut e Pie. Necessário para o caso de uma série única: se uma circunferência tiver valores de ângulo de raio inicial e final iguais não plota.
 export const PoChartCompleteCircle = 0.0001;
+
+// Duração da animação para gráficos dos tipos Donut e Pie.
+const durationTime = 1500;
+export const PoChartAngleStepInterval = (Math.PI * 2) / Math.floor(durationTime / 60);
