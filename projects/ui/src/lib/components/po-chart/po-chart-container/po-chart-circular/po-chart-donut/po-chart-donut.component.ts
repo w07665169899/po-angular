@@ -22,9 +22,7 @@ export class PoChartDonutComponent extends PoChartCircularComponent implements O
     }
   }
 
-  protected calculateCoordinates(dataValue) {
-    const { height, startRadianAngle, endRadianAngle } = dataValue;
-
+  protected calculateCoordinates(height: number, startRadianAngle: number, endRadianAngle: number) {
     const radius = height / 2;
     const innerRadius = radius - PoChartDonutThickness;
 

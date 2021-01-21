@@ -13,9 +13,7 @@ export class PoChartPieComponent extends PoChartCircularComponent implements OnC
     }
   }
 
-  protected calculateCoordinates(dataValue) {
-    const { height, startRadianAngle, endRadianAngle } = dataValue;
-
+  protected calculateCoordinates(height: number, startRadianAngle: number, endRadianAngle: number) {
     const radius = height / 2;
 
     const sinAlpha = Math.sin(startRadianAngle);
