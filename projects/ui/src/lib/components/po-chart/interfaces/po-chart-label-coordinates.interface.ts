@@ -15,8 +15,8 @@ export interface PoChartLabelCoordinates {
   label: string;
 
   /** Coordenada horizontal. */
-  xCoordinate: number;
+  xCoordinate?: number;
 
   /** Coordenada vertical. */
-  yCoordinate: number;
+  yCoordinate?: number;
 }

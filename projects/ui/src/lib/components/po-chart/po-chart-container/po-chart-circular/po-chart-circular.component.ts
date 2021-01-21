@@ -33,6 +33,7 @@ export abstract class PoChartCircularComponent {
 
   seriesLabels: Array<PoChartLabelCoordinates> = [];
   seriesList: Array<PoChartPathCoordinates>;
+  showLabels: boolean = false;
 
   protected totalValue: number;
 
@@ -64,7 +65,6 @@ export abstract class PoChartCircularComponent {
     protected colorService: PoChartColorService,
     protected mathsService: PoChartMathsService,
     private ngZone: NgZone,
-    private renderer: Renderer2,
     private changeDetector: ChangeDetectorRef
   ) {}
 
@@ -76,18 +76,15 @@ export abstract class PoChartCircularComponent {
     this.circularHover.emit(selectedItem);
   }
 
-  trackBy(index) {
-    return index;
-  }
-
   protected calculateAngle(data: number, totalValue: number) {
     const result = (data / totalValue) * (Math.PI * 2);
     return result;
   }
 
   protected drawSeries(series: Array<PoPieChartSeries | PoDonutChartSeries>, height: number) {
-    this.totalValue = this.calculateTotalValue(series);
     this.seriesList = [];
+    this.showLabels = false;
+    this.totalValue = this.calculateTotalValue(series);
 
     if (this.totalValue && this.totalValue > 0) {
       this.seriesList = this.validateSeries(series, this.totalValue);
@@ -122,6 +119,7 @@ export abstract class PoChartCircularComponent {
       const coordinates = this.calculateCoordinates({ height, startRadianAngle, endRadianAngle });
 
       this.svgPaths.toArray()[index].applyCoordinates(coordinates);
+      this.showLabels = true;
     });
   }
 
@@ -143,6 +141,10 @@ export abstract class PoChartCircularComponent {
     }
 
     if (finishedCurrentSerie) {
+      if (this.svgLabels.toArray().length) {
+        this.svgLabels.toArray()[seriesIndex].applyCoordinates(this.seriesLabels[seriesIndex]);
+      }
+
       currentRadianAngle = 0;
       seriesIndex++;
       startRadianAngle = startRadianAngle + endRadianAngle;

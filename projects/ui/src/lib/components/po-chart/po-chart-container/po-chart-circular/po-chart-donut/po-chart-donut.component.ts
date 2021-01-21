@@ -88,19 +88,15 @@ export class PoChartDonutComponent extends PoChartCircularComponent implements O
       startRadianAngle = endRadianAngle;
       endRadianAngle = startRadianAngle + this.calculateAngle(serie.data, this.totalValue);
 
-      return this.calculateLabelCoordinates({
-        serie,
-        height,
-        startRadianAngle,
-        endRadianAngle,
-        totalValue: this.totalValue
-      });
+      const label = this.getPercentValue(serie.data, this.totalValue) + '% ';
+      const color = this.getTextColor(serie.color);
+      const coordinates = this.calculateLabelCoordinates(height, startRadianAngle, endRadianAngle);
+
+      return { ...coordinates, label, color };
     });
   }
 
-  private calculateLabelCoordinates(dataValue) {
-    const { serie, height, startRadianAngle, endRadianAngle, totalValue } = dataValue;
-
+  private calculateLabelCoordinates(height: number, startRadianAngle: number, endRadianAngle: number) {
     const radius = height / 2;
     const innerRadius = radius - PoChartDonutThickness;
 
@@ -110,12 +106,7 @@ export class PoChartDonutComponent extends PoChartCircularComponent implements O
     const xCoordinate = labelRadius * Math.cos(sliceCenterAngle) + radius;
     const yCoordinate = labelRadius * Math.sin(sliceCenterAngle) + radius;
 
-    return {
-      xCoordinate,
-      yCoordinate,
-      label: this.getPercentValue(serie.data, totalValue) + '% ',
-      color: this.getTextColor(serie.color)
-    };
+    return { xCoordinate, yCoordinate };
   }
 
   private getPercentValue(value: number, totalValue: number) {

@@ -1,8 +1,9 @@
-<svg:text
+<svg:text #svgLabel 
   class="po-chart-label" 
   dominant-baseline="middle"
-  [attr.fill]="coordinates.color"
-  [attr.x]="coordinates.xCoordinate"
-  [attr.y]="coordinates.yCoordinate">
-  {{ coordinates.label }}
+  [class.po-invisible]="!showLabel"
+  [attr.fill]="serie?.color"
+  [attr.x]="serie?.xCoordinate"
+  [attr.y]="serie?.yCoordinate">
+  {{ serie?.label }}
 </svg:text> 

@@ -7,7 +7,7 @@ import { PoChartPathCoordinates } from '../../../interfaces/po-chart-path-coordi
   templateUrl: './po-chart-circular-path.component.svg'
 })
 export class PoChartCircularPathComponent {
-  @Input('p-coordinates') coordinates: PoChartPathCoordinates;
+  @Input('p-serie') serie: PoChartPathCoordinates;
 
   @Output('p-on-click') onClick = new EventEmitter<any>();
 
@@ -22,13 +22,13 @@ export class PoChartCircularPathComponent {
   }
 
   onMouseClick() {
-    const { label, data } = this.coordinates;
+    const { label, data } = this.serie;
 
     this.onClick.emit({ label, data });
   }
 
   onMouseEnter() {
-    const { label, data } = this.coordinates;
+    const { label, data } = this.serie;
 
     this.onHover.emit({ label, data });
   }
