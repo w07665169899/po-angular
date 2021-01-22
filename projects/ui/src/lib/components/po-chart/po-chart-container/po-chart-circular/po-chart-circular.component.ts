@@ -15,6 +15,7 @@ import {
   PoChartAngleStepInterval
 } from '../../helpers/po-chart-default-values.constant';
 
+import { PoChartCircularLabelComponent } from './po-chart-circular-label/po-chart-circular-label.component';
 import { PoChartCircularPathComponent } from './po-chart-circular-path/po-chart-circular-path.component';
 import { PoChartColorService } from '../../services/po-chart-color.service';
 import { PoChartContainerSize } from '../../interfaces/po-chart-container-size.interface';
@@ -23,7 +24,6 @@ import { PoChartPathCoordinates } from '../../interfaces/po-chart-path-coordinat
 import { PoChartType } from '../../enums/po-chart-type.enum';
 import { PoDonutChartSeries } from '../../po-chart-types/po-chart-donut/po-chart-donut-series.interface';
 import { PoPieChartSeries } from '../../po-chart-types/po-chart-pie/po-chart-pie-series.interface';
-import { PoChartCircularLabelComponent } from './po-chart-circular-label/po-chart-circular-label.component';
 
 @Directive()
 export abstract class PoChartCircularComponent {
@@ -35,7 +35,7 @@ export abstract class PoChartCircularComponent {
 
   protected totalValue: number;
 
-  private colorList: Array<string>;
+  private colorList: Array<string> = [];
   private animate: boolean;
 
   @Input('p-container-size') containerSize: PoChartContainerSize;
@@ -82,9 +82,8 @@ export abstract class PoChartCircularComponent {
     this.seriesList = [];
     this.showLabels = false;
     this.totalValue = this.calculateTotalValue(series);
-
     if (this.totalValue && this.totalValue > 0) {
-      this.seriesList = this.validateSeries(series, this.totalValue);
+      this.seriesList = this.validateSeries(series);
       this.changeDetector.detectChanges();
 
       if (this.seriesList.length && this.svgPaths) {
@@ -112,9 +111,10 @@ export abstract class PoChartCircularComponent {
     series.forEach((serie, index) => {
       startRadianAngle = endRadianAngle;
       endRadianAngle = startRadianAngle + this.calculateAngle(serie.data, totalValue);
+      console.log('serie', serie);
 
       const coordinates = this.calculateCoordinates(height, startRadianAngle, endRadianAngle);
-
+      console.log('svgpahts', this.svgPaths);
       this.svgPaths.toArray()[index].applyCoordinates(coordinates);
       this.showLabels = true;
     });
@@ -194,20 +194,19 @@ export abstract class PoChartCircularComponent {
     }
   }
 
-  private validateSeries(series: Array<PoPieChartSeries | PoDonutChartSeries>, totalValue: number) {
-    return series.reduce((coordinatesList, serie, index) => {
-      const { label, tooltip } = serie;
+  private validateSeries(series: Array<PoPieChartSeries | PoDonutChartSeries>) {
+    return series.reduce((seriesList, serie, index) => {
       const data = serie.data ?? serie.value;
-
       if (data && data > 0) {
         const color = this.colorList[index];
         const label = serie.label;
+        const tooltip = serie.tooltip;
         const tooltipLabel = this.getTooltipLabel(data, label, tooltip);
 
-        coordinatesList = [...coordinatesList, { data, color, label, tooltipLabel }];
+        seriesList = [...seriesList, { data, color, label, tooltipLabel }];
       }
 
-      return coordinatesList;
+      return seriesList;
     }, []);
   }
 

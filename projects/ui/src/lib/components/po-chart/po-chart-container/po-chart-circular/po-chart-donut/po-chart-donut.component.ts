@@ -1,11 +1,12 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 
 import { convertNumberToDecimal } from '../../../../../utils/util';
-import { PoSeriesTextBlack } from '../../../helpers/po-chart-colors.constant';
-import { PoChartDonutThickness, PoChartStartAngle } from '../../../helpers/po-chart-default-values.constant';
-import { PoDonutChartSeries } from '../../../po-chart-types/po-chart-donut/po-chart-donut-series.interface';
 
 import { PoChartCircularComponent } from '../po-chart-circular.component';
+import { PoChartDonutThickness, PoChartStartAngle } from '../../../helpers/po-chart-default-values.constant';
+import { PoDonutChartSeries } from '../../../po-chart-types/po-chart-donut/po-chart-donut-series.interface';
+import { PoChartColorService } from '../../../services/po-chart-color.service';
+import { PoSeriesTextBlack } from '../../../helpers/po-chart-colors.constant';
 
 @Component({
   selector: '[po-chart-donut]',
@@ -14,6 +15,11 @@ import { PoChartCircularComponent } from '../po-chart-circular.component';
 export class PoChartDonutComponent extends PoChartCircularComponent implements OnChanges {
   private readonly poChartBlackColor = '#000000';
   private readonly poChartWhiteColor = '#ffffff';
+
+  /* istanbul ignore next */
+  constructor(colorService: PoChartColorService, ngZone: NgZone, changeDetector: ChangeDetectorRef) {
+    super(colorService, ngZone, changeDetector);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.series || changes.containerSize) {
